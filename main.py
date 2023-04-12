@@ -1,10 +1,12 @@
 import random
 import sqlite3
 import time
-import tkinter
-import tkinter as tk
+
 from tkinter import *
-from tkinter import Tk,ttk
+
+import pyttsx3
+
+
 import customtkinter
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
@@ -12,95 +14,71 @@ customtkinter.set_default_color_theme("dark-blue")
 root=customtkinter.CTk()
 root.geometry("1080x980")
 root.title('Dyslexia Detection')
-def loginpage(logdata):
-    frame2.destroy()
-    time.sleep(0.5)
-    global frame
+radio_var1=IntVar()
+radio_var2=IntVar()
+radio_var3=IntVar()
+radio_var4=IntVar()
+radio_var5=IntVar()
+radio_var6=IntVar()
+radio_var7=IntVar()
+def start():
+    global frame0
 
-    frame=customtkinter.CTkFrame(master=root)
-    frame.pack(pady=20, padx=60, fill="both",expand=True)
+    frame0 = customtkinter.CTkFrame(master=root)
+    frame0.pack(pady=20, padx=60, fill="both", expand=True)
+    label = customtkinter.CTkLabel(master=frame0, text="Home")
+    label.pack(pady=12, padx=10)
 
-    label=customtkinter.CTkLabel(master=frame, text="Login System")
-    label.pack(pady=12,padx=10)
+    button5 = customtkinter.CTkButton(master=frame0,
+                                      text="You Must create an account",
+                                      text_color="white",
+                                      fg_color="transparent",
+                                      hover_color="red",
+                                      command=lambda :signUpPage())
+    button5.pack(pady=10, padx=10)
 
-    user_name=StringVar()
-    passW = StringVar()
-
-    ulabel = customtkinter.CTkLabel(frame, text="Username",text_color="white", fg_color='transparent')
-    ulabel.pack(pady=50,padx=50)
-    ulabel.place(relx=0.35,rely=0.08)
-    entry1 = customtkinter.CTkEntry(master=frame,textvariable=user_name, placeholder_text="Username")
-    entry1.pack(pady=12,padx=10)
-
-    plabel = customtkinter.CTkLabel(frame, text="Password",text_color="white", fg_color='transparent')
-    plabel.pack(pady=50,padx=50)
-    plabel.place(relx=0.35,rely=0.14)
-    entry2 = customtkinter.CTkEntry(master=frame, placeholder_text="Password",textvariable=passW,show="*")
-    entry2.pack(pady=12,padx=10)
-
-    button2=customtkinter.CTkButton(master=frame,
-                                   text="Login",
-                                   text_color="white",
-                                   fg_color="transparent",
-                                   hover_color= "red",
-                                   command=lambda :check())
-    button2.pack(pady=10,padx=10)
-    button2.place(relx=0.40,rely=0.25)
-
-    def check():
-        for a, b, c, d in logdata:
-            if b == user_name.get() and c == passW.get():
-                print(logdata)
-
-                tab_view(a)
-                break
-        else:
-            error = Label(frame, text="Wrong Username or Password!", fg='red')
-            error.place(relx=0.37, rely=0.20)
-
-
-    frame.mainloop()
-
-
+    frame0.mainloop()
 def signUpPage():
     frame0.destroy()
     time.sleep(0.5)
-    global frame2
+
     fname = StringVar()
     user_name = StringVar()
     passW = StringVar()
     c = StringVar()
-    frame2=customtkinter.CTkFrame(master=root)
-    frame2.pack(pady=20, padx=60, fill="both", expand=True)
-    label=customtkinter.CTkLabel(master=frame2, text="Sign Up")
+
+    global frame1
+    frame1=customtkinter.CTkFrame(master=root)
+    frame1.pack(pady=20, padx=60, fill="both", expand=True)
+    label=customtkinter.CTkLabel(master=frame1, text="Sign Up")
     label.pack(pady=12,padx=10)
 
     # full name
-    flabel = customtkinter.CTkLabel(frame2, text="YourName",text_color="white", fg_color='transparent')
+    flabel = customtkinter.CTkLabel(frame1, text="YourName",text_color="white", fg_color='transparent')
     flabel.pack(pady=50,padx=50)
     flabel.place(relx=0.35,rely=0.08)
-    entry0 = customtkinter.CTkEntry(master=frame2,textvariable=fname, placeholder_text="Name")
+    entry0 = customtkinter.CTkEntry(master=frame1,textvariable=fname, placeholder_text="Name")
     entry0.pack(pady=12,padx=10)
 
     # username
-    ulabel = customtkinter.CTkLabel(frame2, text="Username",text_color="white", fg_color='transparent')
+    ulabel = customtkinter.CTkLabel(frame1, text="Username",text_color="white", fg_color='transparent')
     ulabel.pack(pady=50,padx=50)
     ulabel.place(relx=0.35,rely=0.15)
-    entry1 = customtkinter.CTkEntry(master=frame2,textvariable=user_name, placeholder_text="Username")
+    entry1 = customtkinter.CTkEntry(master=frame1,textvariable=user_name, placeholder_text="Username")
     entry1.pack(pady=12,padx=10)
 
     # password
-    plabel = customtkinter.CTkLabel(frame2, text=" Password",text_color="white", fg_color='transparent')
+    plabel = customtkinter.CTkLabel(frame1, text=" Password",text_color="white", fg_color='transparent')
     plabel.pack(pady=50,padx=50)
     plabel.place(relx=0.35,rely=0.22)
-    entry2 = customtkinter.CTkEntry(master=frame2, placeholder_text="Password",textvariable=passW,show="*")
+    entry2 = customtkinter.CTkEntry(master=frame1, placeholder_text="Password",textvariable=passW,show="*")
     entry2.pack(pady=12,padx=102)
 
     # country
-    clabel = customtkinter.CTkLabel(frame2, text=" Country",text_color="white", fg_color='transparent',)
+    clabel = customtkinter.CTkLabel(frame1, text=" Country",text_color="white", fg_color='transparent',)
     clabel.pack(pady=50,padx=50)
     clabel.place(relx=0.35,rely=0.29)
-    option = customtkinter.CTkOptionMenu(frame2, values=["India", "USA", "Japan", "Pakistan", "SriLanka"],
+    option = customtkinter.CTkOptionMenu(frame1, values=["India", "USA", "Japan", "Pakistan", "SriLanka"],
                                       dropdown_text_color="black", variable=c, fg_color="black",
                                       dropdown_fg_color="white")
     option.pack(pady=12,padx=10)
@@ -157,7 +135,7 @@ def signUpPage():
         loginpage(z)
 
     # signup BUTTON
-    button3=customtkinter.CTkButton(master=frame2,
+    button3=customtkinter.CTkButton(master=frame1,
                                    text="Signup",
                                    text_color="white",
                                    fg_color="transparent",
@@ -166,7 +144,7 @@ def signUpPage():
     button3.pack(pady=10,padx=10)
     button3.place(relx=0.408,rely=0.40)
 
-    button3=customtkinter.CTkButton(master=frame2,
+    button3=customtkinter.CTkButton(master=frame1,
                                    text="Already have a Account?",
                                    text_color="white",
                                    fg_color="transparent",
@@ -176,26 +154,69 @@ def signUpPage():
                                     height=1)
     button3.pack(pady=10,padx=10)
     button3.place(relx=0.402,rely=0.45)
-    #
-    # log = Button(frame2, text='Already have a Account?', padx=3, pady=3, width=3, command=gotoLogin, bg="#BADA55",
-    #              fg="green")
-    # log.configure(width=16, height=1, activebackground="#33B5E5", relief=FLAT)
-    # log.place(relx=0.38, rely=0.45)
+
+    frame1.mainloop()
+
+
+def loginpage(logdata):
+    frame1.destroy()
+    time.sleep(0.5)
+    global frame2
+
+    frame2=customtkinter.CTkFrame(master=root)
+    frame2.pack(pady=20, padx=60, fill="both",expand=True)
+
+    label=customtkinter.CTkLabel(master=frame2, text="Login System")
+    label.pack(pady=12,padx=10)
+
+    user_name=StringVar()
+    passW = StringVar()
+
+    ulabel = customtkinter.CTkLabel(frame2, text="Username",text_color="white", fg_color='transparent')
+    ulabel.pack(pady=50,padx=50)
+    ulabel.place(relx=0.35,rely=0.08)
+    entry1 = customtkinter.CTkEntry(master=frame2,textvariable=user_name, placeholder_text="Username")
+    entry1.pack(pady=12,padx=10)
+
+    plabel = customtkinter.CTkLabel(frame2, text="Password",text_color="white", fg_color='transparent')
+    plabel.pack(pady=50,padx=50)
+    plabel.place(relx=0.35,rely=0.14)
+    entry2 = customtkinter.CTkEntry(master=frame2, placeholder_text="Password",textvariable=passW,show="*")
+    entry2.pack(pady=12,padx=10)
+
+    button2=customtkinter.CTkButton(master=frame2,
+                                   text="Login",
+                                   text_color="white",
+                                   fg_color="transparent",
+                                   hover_color= "red",
+                                   command=lambda :check())
+    button2.pack(pady=10,padx=10)
+    button2.place(relx=0.40,rely=0.25)
+
+    def check():
+        for a, b, c, d in logdata:
+            if b == user_name.get() and c == passW.get():
+                print(logdata)
+
+                tab_view()
+                break
+        else:
+            error = Label(frame2, text="Wrong Username or Password!", fg='red')
+            error.place(relx=0.37, rely=0.20)
+
 
     frame2.mainloop()
 
-# import customtkinter
-# customtkinter.set_appearance_mode("dark")
-# customtkinter.set_default_color_theme("dark-blue")
-# root=customtkinter.CTk()
-# root.geometry("1080x980")
+
 
 def tab_view():
-    frame.destroy()
+    frame2.destroy()
+    global frame3
     time.sleep(0.5)
     tabview = customtkinter.CTkTabview(root,height=500,width=500)
-
-
+    frame3 = customtkinter.CTkFrame(master=root)
+    tabview = customtkinter.CTkTabview(frame3,height=500,width=500)
+    frame3.pack(pady=20, padx=60, fill="both", expand=True)
     t1=tabview.add("tab 1")  # add tab at the end
     t2=tabview.add("tab 2")
     t3=tabview.add("tab 3")  # add tab at the end
@@ -219,576 +240,151 @@ def tab_view():
     label6.grid(row=0,column=0,padx=20,pady=20)
     label7=customtkinter.CTkLabel(t7,text="Question7")
     label7.grid(row=0,column=0,padx=20,pady=20)
+    frame1 = customtkinter.CTkFrame(master=t1, width=400, height=100)
+    frame1.grid(row=1, column=0, padx=20, pady=20)
+    frame32 = customtkinter.CTkFrame(master=t2, width=400, height=100)
+    frame32.grid(row=1, column=0, padx=20, pady=20)
+    frame33 = customtkinter.CTkFrame(master=t3, width=400, height=100)
+    frame33.grid(row=1, column=0, padx=20, pady=20)
+    frame4 = customtkinter.CTkFrame(master=t4, width=400, height=100)
+    frame4.grid(row=1, column=0, padx=20, pady=20)
+    frame5 = customtkinter.CTkFrame(master=t5, width=400, height=100)
+    frame5.grid(row=1, column=0, padx=20, pady=20)
+    frame6 = customtkinter.CTkFrame(master=t6, width=400, height=100)
+    frame6.grid(row=1, column=0, padx=20, pady=20)
+    frame7 = customtkinter.CTkFrame(master=t7, width=400, height=100)
+    frame7.grid(row=1, column=0, padx=20, pady=20)
+    qlabel1 = customtkinter.CTkLabel(master=frame1, text="Which of the following is not an exception handling keyword in Python?")
+    qlabel1.pack(pady=12, padx=10)
+    radiobutton_1 = customtkinter.CTkRadioButton(master=frame1, text="Option 1",
+                                                      variable=radio_var1, value=1)
+    radiobutton_2 = customtkinter.CTkRadioButton(master=frame1, text="Option 2",
+                                                      variable=radio_var1, value=2)
+    radiobutton_3 = customtkinter.CTkRadioButton(master=frame1, text="Option 3",
+                                                      variable=radio_var1, value=3)
+    radiobutton_4 = customtkinter.CTkRadioButton(master=frame1, text="Option 4",
+                                                      variable=radio_var1, value=4)
+    radiobutton_1.pack(padx=20, pady=10)
+    radiobutton_2.pack(padx=20, pady=10)
+    radiobutton_3.pack(padx=20, pady=10)
+    radiobutton_4.pack(padx=20, pady=10)
+    button = customtkinter.CTkButton(master=frame1, text="Submit", command=lambda: print("Option", radio_var1.get()))
+    button.pack(pady=12, padx=10)
+    qlabel2 = customtkinter.CTkLabel(master=frame32, text="Suppose list1 is [3, 5, 25, 1, 3], what is min(list1)?")
+    qlabel2.pack(pady=12, padx=10)
+    radiobutton_1 = customtkinter.CTkRadioButton(master=frame32, text="Option 1",
+                                                      variable=radio_var2, value=1)
+    radiobutton_2 = customtkinter.CTkRadioButton(master=frame32, text="Option 2",
+                                                      variable=radio_var2, value=2)
+    radiobutton_3 = customtkinter.CTkRadioButton(master=frame32, text="Option 3",
+                                                      variable=radio_var2, value=3)
+    radiobutton_4 = customtkinter.CTkRadioButton(master=frame32, text="Option 4",
+                                                      variable=radio_var2, value=4)
+    radiobutton_1.pack(padx=20, pady=10)
+    radiobutton_2.pack(padx=20, pady=10)
+    radiobutton_3.pack(padx=20, pady=10)
+    radiobutton_4.pack(padx=20, pady=10)
+    button = customtkinter.CTkButton(master=frame32, text="Submit", command=lambda: print("Option", radio_var2.get()))
+    button.pack(pady=12, padx=10)
+    qlabel3 = customtkinter.CTkLabel(master=frame33, text="Suppose list1 is [2, 33, 222, 14, 25], What is list1[-1]?")
+    qlabel3.pack(pady=12, padx=10)
+    radiobutton_1 = customtkinter.CTkRadioButton(master=frame33, text="Option 1",
+                                                      variable=radio_var3, value=1)
+    radiobutton_2 = customtkinter.CTkRadioButton(master=frame33, text="Option 2",
+                                                      variable=radio_var3, value=2)
+    radiobutton_3 = customtkinter.CTkRadioButton(master=frame33, text="Option 3",
+                                                      variable=radio_var3, value=3)
+    radiobutton_4 = customtkinter.CTkRadioButton(master=frame33, text="Option 4",
+                                                      variable=radio_var3, value=4)
+    radiobutton_1.pack(padx=20, pady=10)
+    radiobutton_2.pack(padx=20, pady=10)
+    radiobutton_3.pack(padx=20, pady=10)
+    radiobutton_4.pack(padx=20, pady=10)
+    button = customtkinter.CTkButton(master=frame33, text="Submit", command=lambda: print("Option", radio_var3.get()))
+    button.pack(pady=12, padx=10)
+    qlabel4 = customtkinter.CTkLabel(master=frame4, text="print(0xA + 0xB + 0xC):?")
+    qlabel4.pack(pady=12, padx=10)
+    radiobutton_1 = customtkinter.CTkRadioButton(master=frame4, text="Option 1",
+                                                      variable=radio_var4, value=1)
+    radiobutton_2 = customtkinter.CTkRadioButton(master=frame4, text="Option 2",
+                                                      variable=radio_var4, value=2)
+    radiobutton_3 = customtkinter.CTkRadioButton(master=frame4, text="Option 3",
+                                                      variable=radio_var4, value=3)
+    radiobutton_4 = customtkinter.CTkRadioButton(master=frame4, text="Option 4",
+                                                      variable=radio_var4, value=4)
+    radiobutton_1.pack(padx=20, pady=10)
+    radiobutton_2.pack(padx=20, pady=10)
+    radiobutton_3.pack(padx=20, pady=10)
+    radiobutton_4.pack(padx=20, pady=10)
+    button = customtkinter.CTkButton(master=frame4, text="Submit", command=lambda: print("Option", radio_var4.get()))
+    button.pack(pady=12, padx=10)
+    qlabel5 = customtkinter.CTkLabel(master=frame5, text="Which of the following is invalid?")
+    qlabel5.pack(pady=12, padx=10)
+    radiobutton_1 = customtkinter.CTkRadioButton(master=frame5, text="Option 1",
+                                                      variable=radio_var5, value=1)
+    radiobutton_2 = customtkinter.CTkRadioButton(master=frame5, text="Option 2",
+                                                      variable=radio_var5, value=2)
+    radiobutton_3 = customtkinter.CTkRadioButton(master=frame5, text="Option 3",
+                                                      variable=radio_var5, value=3)
+    radiobutton_4 = customtkinter.CTkRadioButton(master=frame5, text="Option 4",
+                                                      variable=radio_var5, value=4)
+    radiobutton_1.pack(padx=20, pady=10)
+    radiobutton_2.pack(padx=20, pady=10)
+    radiobutton_3.pack(padx=20, pady=10)
+    radiobutton_4.pack(padx=20, pady=10)
+    button = customtkinter.CTkButton(master=frame5, text="Submit", command=lambda: print("Option", radio_var5.get()))
+    button.pack(pady=12, padx=10)
+    qlabel6 = customtkinter.CTkLabel(master=frame6, text="What will be the value of X in the following Python expression? \nX = 2+9*((3*12)-8)/10")
+    qlabel6.pack(pady=12, padx=10)
+    radiobutton_1 = customtkinter.CTkRadioButton(master=frame6, text="Option 1",
+                                                      variable=radio_var6, value=1)
+    radiobutton_2 = customtkinter.CTkRadioButton(master=frame6, text="Option 2",
+                                                      variable=radio_var6, value=2)
+    radiobutton_3 = customtkinter.CTkRadioButton(master=frame6, text="Option 3",
+                                                      variable=radio_var6, value=3)
+    radiobutton_4 = customtkinter.CTkRadioButton(master=frame6, text="Option 4",
+                                                      variable=radio_var6, value=4)
+    radiobutton_1.pack(padx=20, pady=10)
+    radiobutton_2.pack(padx=20, pady=10)
+    radiobutton_3.pack(padx=20, pady=10)
+    radiobutton_4.pack(padx=20, pady=10)
+    button = customtkinter.CTkButton(master=frame6, text="Submit", command=print("Option", radio_var6.get))
+    button.pack(pady=12, padx=10)
+    qlabel7 = customtkinter.CTkLabel(master=frame7, text="What will be the output of the following Python expression if the value of x is 34? \nprint(“%f”%x)")
+    qlabel7.pack(pady=12, padx=10)
+    radiobutton_1 = customtkinter.CTkRadioButton(master=frame7, text="Option 1",
+                                                      variable=radio_var7, value=1)
+    radiobutton_2 = customtkinter.CTkRadioButton(master=frame7, text="Option 2",
+                                                      variable=radio_var7, value=2)
+    radiobutton_3 = customtkinter.CTkRadioButton(master=frame7, text="Option 3",
+                                                      variable=radio_var7, value=3)
+    radiobutton_4 = customtkinter.CTkRadioButton(master=frame7, text="Option 4",
+                                                      variable=radio_var7, value=4)
+    radiobutton_1.pack(padx=20, pady=10)
+    radiobutton_2.pack(padx=20, pady=10)
+    radiobutton_3.pack(padx=20, pady=10)
+    radiobutton_4.pack(padx=20, pady=10)
+    button = customtkinter.CTkButton(master=frame7, text="Submit", command=lambda:print("Option", radio_var7.get()),)
+    button.pack(pady=12, padx=10)
+    b=customtkinter.CTkButton(frame3,text="End",fg_color="red",command=lambda :Speech())
+    b.pack()
 
+def Speech():
+    engine = pyttsx3.init()
 
+    rate = engine.getProperty('rate')
+    print(rate)
+    rate = engine.setProperty('rate', 150)
+    volume = engine.getProperty('volume')
+    print(volume)
+    volume = engine.setProperty('volume', 5.0)
 
+    engine.say('hey sathya')
+    engine.say("poda punda mavana")
+    engine.runAndWait()
+    engine.stop()
 
-# def menu(abcdefgh):
-#     frame.destroy()
-#     global menu
-#     menu = Tk()
-#     menu.title('Quiz App Menu')
-#
-#     menu_canvas = Canvas(menu, width=720, height=440, bg="orange")
-#     menu_canvas.pack()
-#
-#     menu_frame = Frame(menu_canvas, bg="#7FFFD4")
-#     menu_frame.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
-#
-#     wel = Label(menu_canvas, text=' W E L C O M E  T O  Q U I Z  S T A T I O N ', fg="white", bg="orange")
-#     wel.config(font=('Broadway 22'))
-#     wel.place(relx=0.1, rely=0.02)
-#
-#     abcdefgh = 'Welcome ' + abcdefgh
-#     level34 = Label(menu_frame, text=abcdefgh, bg="black", font="calibri 18", fg="white")
-#     level34.place(relx=0.17, rely=0.15)
-#
-#     level = Label(menu_frame, text='Select your Difficulty Level !!', bg="orange", font="calibri 18")
-#     level.place(relx=0.25, rely=0.3)
-#
-#     var = IntVar()
-#     easyr = Radiobutton(menu_frame, text='CHILD', bg="#7FFFD4", font="calibri 16", value=1, variable=var)
-#     easyr.place(relx=0.25, rely=0.4)
-#
-#     mediumr = Radiobutton(menu_frame, text='Medium', bg="#7FFFD4", font="calibri 16", value=2, variable=var)
-#     mediumr.place(relx=0.25, rely=0.5)
-#
-#     hardr = Radiobutton(menu_frame, text='Hard', bg="#7FFFD4", font="calibri 16", value=3, variable=var)
-#     hardr.place(relx=0.25, rely=0.6)
-#
-#     def navigate():
-#
-#         x = var.get()
-#         print(x)
-#         if x == 1:
-#             menu.destroy()
-#             easy()
-#         elif x == 2:
-#             menu.destroy()
-#             medium()
-#
-#         elif x == 3:
-#             menu.destroy()
-#             difficult()
-#         else:
-#             pass
-#
-#     letsgo = Button(menu_frame, text="Let's Go", bg="black", fg="white", font="calibri 12", command=navigate)
-#     letsgo.place(relx=0.25, rely=0.8)
-#     menu.mainloop()
-#
-
-# def easy():
-#     global e
-#     e = Tk()
-#     e.title('Quiz App - Easy Level')
-#
-#     easy_canvas = Canvas(e, width=720, height=440, bg="orange")
-#     easy_canvas.pack()
-#
-#     easy_frame = Frame(easy_canvas, bg="#BADA55")
-#     easy_frame.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
-#
-#     def countDown():
-#         check = 0
-#         for k in range(10, 0, -1):
-#
-#             if k == 1:
-#                 check = -1
-#             timer.configure(text=k)
-#             easy_frame.update()
-#             time.sleep(1)
-#
-#         timer.configure(text="Times up!")
-#         if check == -1:
-#             return (-1)
-#         else:
-#             return 0
-#
-#     global score
-#     score = 0
-#
-#     easyQ = [
-#         [
-#             "What will be the output of the following Python code? \nl=[1, 0, 2, 0, 'hello', '', []] \nlist(filter("
-#             "bool, nl))",
-#             "[1, 0, 2, ‘hello’, '', []]",
-#             "Error",
-#             "[1, 2, ‘hello’]",
-#             "[1, 0, 2, 0, ‘hello’, '', []]"
-#         ],
-#         [
-#             "What will be the output of the following Python expression if the value of x is 34? \nprint(“%f”%x)",
-#             "34.00",
-#             "34.000000",
-#             "34.0000",
-#             "34.00000000"
-#
-#         ],
-#         [
-#             "What will be the value of X in the following Python expression? \nX = 2+9*((3*12)-8)/10",
-#             "30.8",
-#             "27.2",
-#             "28.4",
-#             "30.0"
-#         ],
-#         [
-#             "Which of these in not a core data type?",
-#             "Tuples",
-#             "Dictionary",
-#             "Lists",
-#             "Class"
-#         ],
-#         [
-#             "Which of the following represents the bitwise XOR operator?",
-#             "&",
-#             "!",
-#             "^",
-#             "|"
-#         ]
-#     ]
-#     answer = [
-#         "[1, 2, ‘hello’]",
-#         "34.000000",
-#         "27.2",
-#         "Class",
-#         "^"
-#     ]
-#     li = ['', 0, 1, 2, 3, 4]
-#     x = random.choice(li[1:])
-#
-#     ques = Label(easy_frame, text=easyQ[x][0], font="calibri 12", bg="orange")
-#     ques.place(relx=0.5, rely=0.2, anchor=CENTER)
-#
-#     var = StringVar()
-#
-#     a = Radiobutton(easy_frame, text=easyQ[x][1], font="calibri 10", value=easyQ[x][1], variable=var, bg="#BADA55")
-#     a.place(relx=0.5, rely=0.42, anchor=CENTER)
-#
-#     b = Radiobutton(easy_frame, text=easyQ[x][2], font="calibri 10", value=easyQ[x][2], variable=var, bg="#BADA55")
-#     b.place(relx=0.5, rely=0.52, anchor=CENTER)
-#
-#     c = Radiobutton(easy_frame, text=easyQ[x][3], font="calibri 10", value=easyQ[x][3], variable=var, bg="#BADA55")
-#     c.place(relx=0.5, rely=0.62, anchor=CENTER)
-#
-#     d = Radiobutton(easy_frame, text=easyQ[x][4], font="calibri 10", value=easyQ[x][4], variable=var, bg="#BADA55")
-#     d.place(relx=0.5, rely=0.72, anchor=CENTER)
-#
-#     li.remove(x)
-#
-#     timer = Label(e)
-#     timer.place(relx=0.8, rely=0.82, anchor=CENTER)
-#
-#     def display():
-#
-#         if len(li) == 1:
-#             e.destroy()
-#             showMark(score)
-#         if len(li) == 2:
-#             nextQuestion.configure(text='End', command=calc)
-#
-#         if li:
-#             x = random.choice(li[1:])
-#             ques.configure(text=easyQ[x][0])
-#
-#             a.configure(text=easyQ[x][1], value=easyQ[x][1])
-#
-#             b.configure(text=easyQ[x][2], value=easyQ[x][2])
-#
-#             c.configure(text=easyQ[x][3], value=easyQ[x][3])
-#
-#             d.configure(text=easyQ[x][4], value=easyQ[x][4])
-#
-#             li.remove(x)
-#             y = countDown()
-#             if y == -1:
-#                 display()
-#
-#     def calc():
-#         global score
-#         if (var.get() in answer):
-#             score += 1
-#         display()
-#
-#     submit = Button(easy_frame, command=calc, text="Submit", fg="white", bg="black")
-#     submit.place(relx=0.5, rely=0.82, anchor=CENTER)
-#
-#     nextQuestion = Button(easy_frame, command=display, text="Next", fg="white", bg="black")
-#     nextQuestion.place(relx=0.87, rely=0.82, anchor=CENTER)
-#
-#     # pre=Button(easy_frame,command=display, text="Previous", fg="white", bg="black")
-#     # pre.place(relx=0.75, rely=0.82, anchor=CENTER)
-#
-#     y = countDown()
-#     if y == -1:
-#         display()
-#     e.mainloop()
-#
-#
-# def medium():
-#     global m
-#     m = Tk()
-#     m.title('Quiz App - Medium Level')
-#
-#     med_canvas = Canvas(m, width=720, height=440, bg="#101357")
-#     med_canvas.pack()
-#
-#     med_frame = Frame(med_canvas, bg="#A1A100")
-#     med_frame.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
-#
-#     def countDown():
-#         check = 0
-#         for k in range(10, 0, -1):
-#
-#             if k == 1:
-#                 check = -1
-#             timer.configure(text=k)
-#             med_frame.update()
-#             time.sleep(1)
-#
-#         timer.configure(text="Times up!")
-#         if check == -1:
-#             return (-1)
-#         else:
-#             return 0
-#
-#     global score
-#     score = 0
-#
-#     mediumQ = [
-#         [
-#             "Which of the following is not an exception handling keyword in Python?",
-#             "accept",
-#             "finally",
-#             "except",
-#             "try"
-#         ],
-#         [
-#             "Suppose list1 is [3, 5, 25, 1, 3], what is min(list1)?",
-#             "3",
-#             "5",
-#             "25",
-#             "1"
-#         ],
-#         [
-#             "Suppose list1 is [2, 33, 222, 14, 25], What is list1[-1]?",
-#             "Error",
-#             "None",
-#             "25",
-#             "2"
-#         ],
-#         [
-#             "print(0xA + 0xB + 0xC):",
-#             "0xA0xB0xC",
-#             "Error",
-#             "0x22",
-#             "33"
-#         ],
-#         [
-#             "Which of the following is invalid?",
-#             "_a = 1",
-#             "__a = 1",
-#             "__str__ = 1",
-#             "none of the mentioned"
-#         ],
-#     ]
-#     answer = [
-#         "accept",
-#         "1",
-#         "25",
-#         "33",
-#         "none of the mentioned"
-#     ]
-#
-#     li = ['', 0, 1, 2, 3, 4]
-#     x = random.choice(li[1:])
-#
-#     ques = Label(med_frame, text=mediumQ[x][0], font="calibri 12", bg="#B26500")
-#     ques.place(relx=0.5, rely=0.2, anchor=CENTER)
-#
-#     var = StringVar()
-#
-#     a = Radiobutton(med_frame, text=mediumQ[x][1], font="calibri 10", value=mediumQ[x][1], variable=var, bg="#A1A100")
-#     a.place(relx=0.5, rely=0.42, anchor=CENTER)
-#
-#     b = Radiobutton(med_frame, text=mediumQ[x][2], font="calibri 10", value=mediumQ[x][2], variable=var, bg="#A1A100")
-#     b.place(relx=0.5, rely=0.52, anchor=CENTER)
-#
-#     c = Radiobutton(med_frame, text=mediumQ[x][3], font="calibri 10", value=mediumQ[x][3], variable=var, bg="#A1A100")
-#     c.place(relx=0.5, rely=0.62, anchor=CENTER)
-#
-#     d = Radiobutton(med_frame, text=mediumQ[x][4], font="calibri 10", value=mediumQ[x][4], variable=var, bg="#A1A100")
-#     d.place(relx=0.5, rely=0.72, anchor=CENTER)
-#
-#     li.remove(x)
-#
-#     timer = Label(m)
-#     timer.place(relx=0.8, rely=0.82, anchor=CENTER)
-#
-#     def display():
-#
-#         if len(li) == 1:
-#             m.destroy()
-#             showMark(score)
-#         if len(li) == 2:
-#             nextQuestion.configure(text='End', command=calc)
-#
-#         if li:
-#             x = random.choice(li[1:])
-#             ques.configure(text=mediumQ[x][0])
-#
-#             a.configure(text=mediumQ[x][1], value=mediumQ[x][1])
-#
-#             b.configure(text=mediumQ[x][2], value=mediumQ[x][2])
-#
-#             c.configure(text=mediumQ[x][3], value=mediumQ[x][3])
-#
-#             d.configure(text=mediumQ[x][4], value=mediumQ[x][4])
-#
-#             li.remove(x)
-#             y = countDown()
-#             if y == -1:
-#                 display()
-#
-#     def calc():
-#         global score
-#         if (var.get() in answer):
-#             score += 1
-#         display()
-#
-#     submit = Button(med_frame, command=calc, text="Submit", fg="white", bg="black")
-#     submit.place(relx=0.5, rely=0.82, anchor=CENTER)
-#
-#     nextQuestion = Button(med_frame, command=display, text="Next", fg="white", bg="black")
-#     nextQuestion.place(relx=0.87, rely=0.82, anchor=CENTER)
-#
-#     # pre=Button(med_frame,command=display, text="Previous", fg="white", bg="black")
-#     # pre.place(relx=0.75, rely=0.82, anchor=CENTER)
-#
-#     y = countDown()
-#     if y == -1:
-#         display()
-#     m.mainloop()
-#
-#
-# def difficult():
-#     global h
-#     # count=0
-#     h = Tk()
-#     h.title('Quiz App - Hard Level')
-#
-#     hard_canvas = Canvas(h, width=720, height=440, bg="#101357")
-#     hard_canvas.pack()
-#
-#     hard_frame = Frame(hard_canvas, bg="#008080")
-#     hard_frame.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
-#
-#     def countDown():
-#         check = 0
-#         for k in range(10, 0, -1):
-#
-#             if k == 1:
-#                 check = -1
-#             timer.configure(text=k)
-#             hard_frame.update()
-#             time.sleep(1)
-#
-#         timer.configure(text="Times up!")
-#         if check == -1:
-#             return (-1)
-#         else:
-#             return 0
-#
-#     global score
-#     score = 0
-#
-#     hardQ = [
-#         [
-#             "All keywords in Python are in _________",
-#             "lower case",
-#             "UPPER CASE",
-#             "Capitalized",
-#             "None of the mentioned"
-#         ],
-#         [
-#             "Which of the following cannot be a variable?",
-#             "__init__",
-#             "in",
-#             "it",
-#             "on"
-#         ],
-#         [
-#             "Which of the following is a Python tuple?",
-#             "[1, 2, 3]",
-#             "(1, 2, 3)",
-#             "{1, 2, 3}",
-#             "{}"
-#         ],
-#         [
-#             "What is returned by math.ceil(3.4)?",
-#             "3",
-#             "4",
-#             "4.0",
-#             "3.0"
-#         ],
-#         [
-#             "What will be the output of print(math.factorial(4.5))?",
-#             "24",
-#             "120",
-#             "error",
-#             "24.0"
-#         ]
-#
-#     ]
-#     answer = [
-#         "None of the mentioned",
-#         "in",
-#         "(1,2,3)",
-#         "4",
-#         "error"
-#     ]
-#
-#     li = ['', 0, 1, 2, 3, 4]
-#     x = random.choice(li[1:])
-#
-#     ques = Label(hard_frame, text=hardQ[x][0], font="calibri 12", bg="#A0DB8E")
-#     ques.place(relx=0.5, rely=0.2, anchor=CENTER)
-#
-#     var = StringVar()
-#
-#     a = Radiobutton(hard_frame, text=hardQ[x][1], font="calibri 10", value=hardQ[x][1], variable=var, bg="#008080",
-#                     fg="white")
-#     a.place(relx=0.5, rely=0.42, anchor=CENTER)
-#
-#     b = Radiobutton(hard_frame, text=hardQ[x][2], font="calibri 10", value=hardQ[x][2], variable=var, bg="#008080",
-#                     fg="white")
-#     b.place(relx=0.5, rely=0.52, anchor=CENTER)
-#
-#     c = Radiobutton(hard_frame, text=hardQ[x][3], font="calibri 10", value=hardQ[x][3], variable=var, bg="#008080",
-#                     fg="white")
-#     c.place(relx=0.5, rely=0.62, anchor=CENTER)
-#
-#     d = Radiobutton(hard_frame, text=hardQ[x][4], font="calibri 10", value=hardQ[x][4], variable=var, bg="#008080",
-#                     fg="white")
-#     d.place(relx=0.5, rely=0.72, anchor=CENTER)
-#
-#     li.remove(x)
-#
-#     timer = Label(h)
-#     timer.place(relx=0.8, rely=0.82, anchor=CENTER)
-#
-#     def display():
-#
-#         if len(li) == 1:
-#             h.destroy()
-#             showMark(score)
-#         if len(li) == 2:
-#             nextQuestion.configure(text='End', command=calc)
-#
-#         if li:
-#             x = random.choice(li[1:])
-#             ques.configure(text=hardQ[x][0])
-#
-#             a.configure(text=hardQ[x][1], value=hardQ[x][1])
-#
-#             b.configure(text=hardQ[x][2], value=hardQ[x][2])
-#
-#             c.configure(text=hardQ[x][3], value=hardQ[x][3])
-#
-#             d.configure(text=hardQ[x][4], value=hardQ[x][4])
-#
-#             li.remove(x)
-#             y = countDown()
-#             if y == -1:
-#                 display()
-#
-#     def calc():
-#         global score
-#         # count=count+1
-#         if (var.get() in answer):
-#             score += 1
-#         display()
-#
-#     # def lastPage():
-#     #    h.destroy()
-#     #   showMark()
-#
-#     submit = Button(hard_frame, command=calc, text="Submit", fg="white", bg="black")
-#     submit.place(relx=0.5, rely=0.82, anchor=CENTER)
-#
-#     nextQuestion = Button(hard_frame, command=display, text="Next", fg="white", bg="black")
-#     nextQuestion.place(relx=0.87, rely=0.82, anchor=CENTER)
-#
-#     # pre=Button(hard_frame,command=display, text="Previous", fg="white", bg="black")
-#     # pre.place(relx=0.75, rely=0.82, anchor=CENTER)
-#
-#     # end=Button(hard_frame,command=showMark(m), text="End", fg="white", bg="black")
-#     # end.place(relx=0.8, rely=0.82, anchor=CENTER)
-#
-#     y = countDown()
-#     if y == -1:
-#         display()
-#     h.mainloop()
-
-#
-# def showMark(mark):
-#     sh = Tk()
-#     sh.title('Your Marks')
-#
-#     st = "Your score is " + str(mark) + "/5"
-#     mlabel = Label(sh, text=st, fg="black", bg="white")
-#     mlabel.pack()
-#
-#     def callsignUpPage():
-#         sh.destroy()
-#         start()
-#
-#     def myeasy():
-#         sh.destroy()
-#         easy()
-#
-#     b24 = Button(text="Re-attempt", command=myeasy, bg="black", fg="white")
-#     b24.pack()
-#
-#     from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
-#     from matplotlib.figure import Figure
-#
-#     fig = Figure(figsize=(5, 4), dpi=100)
-#     labels = 'Marks Obtained', 'Total Marks'
-#     sizes = [int(mark), 5 - int(mark)]
-#     explode = (0.1, 0)
-#     fig.add_subplot(111).pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%', shadow=True, startangle=0)
-#
-#     canvas = FigureCanvasTkAgg(fig, master=sh)  # A tk.DrawingArea.
-#     canvas.draw()
-#     canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
-#
-#     b23 = Button(text="Sign Out", command=callsignUpPage, fg="white", bg="black")
-#     b23.pack()
-#
-#     sh.mainloop()
-#
-
-def start():
-    global frame0
-    # root = Tk()
-    # root.title('Welcome To Quiz App')
-    # canvas = Canvas(root, width=720, height=440, bg='pink')
-    # canvas.grid(column=0, row=1)
-    frame0 = customtkinter.CTkFrame(master=root)
-    frame0.pack(pady=20, padx=60, fill="both", expand=True)
-    label = customtkinter.CTkLabel(master=frame0, text="Home")
-    label.pack(pady=12, padx=10)
-
-    button5 = customtkinter.CTkButton(master=frame0,
-                                      text="You Must create an account",
-                                      text_color="white",
-                                      fg_color="transparent",
-                                      hover_color="red",
-                                      command=lambda: signUpPage())
-    button5.pack(pady=10, padx=10)
-
-    frame0.mainloop()
+    engine.runAndWait()
 
 
 if __name__ == '__main__':
